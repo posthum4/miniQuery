@@ -1,40 +1,97 @@
-
-
 var SweetSelector = (function(){
 
-  var select = function(anchorTag){
-    var selector = anchorTag.charAt(0)
-    console.log(selector)
-    var word = croptAnchorTag(anchorTag, selector)
-    console.log (word)
-    switch(selector) {
-      case '.':
-        console.log("I am in the class path")
-        console.log(word)
-        var elements = document.getElementsByClassName(word);
-        break
-      default:
-        console.log('element not returned');
-    }
+  var select = function(tag){
+    var selectorType = tag.charAt(0)
+    var selector = cropTag(tag, selectorType)
+    var elements = elementSelector(selectorType, selector)
     return elements
-  }
+  };
 
-  var croptAnchorTag = function(anchorTag, selector) {
-    if (selector === '.' || selector === '#') {
-      var x = (anchorTag.substr(1,anchorTag.length ));
-      console.log(x)
-      return x
+  var cropTag = function(tag, selectorType) {
+    if (selectorType === '.' || selectorType === '#') {
+      return (tag.substr(1,tag.length ));
     } else {
-      return anchorTag;
+      return tag;
     }
-  }
+  };
 
+  var elementSelector = function(selectorType, selector){
+    switch(selectorType) {
+      case '.':
+        return document.getElementsByClassName(selector);
+      case '#':
+        return document.getElementById(selector);
+      default:
+        return document.querySelectorAll(selector);
+    }
+  };
 
   return {
     select: select
-  }
+  };
 
 
 })();
+
+
+var DOM = (function(){
+
+  var hide = function(tag){
+    var attrName = 'style'
+    var attrValue = 'display: none;'
+    var elements = SweetSelector.select(tag)
+    wrapSingleElement(elements)
+    addAttr(elements, attrName, attrValue);
+  }
+
+  var show =
+
+
+  var addAttr = function(elements, attrName, attrValue){
+    for(var i = 0; i < elements.length; i++){
+      elements[i].setAttribute(attrName, attrValue)
+    }
+  }
+
+  var wrapSingleElement = function(elements){
+    if (Object.prototype.toString.call(elements) === "[object HTMLDivElement]"){
+      elements = [elements];
+    };
+    return elements;
+  }
+
+  return {
+    hide: hide
+    show: show
+  }
+
+})()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
