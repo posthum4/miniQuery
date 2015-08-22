@@ -39,13 +39,29 @@ var DOM = (function(){
   var hide = function(tag){
     var attrName = 'style'
     var attrValue = 'display: none;'
-    var elements = SweetSelector.select(tag)
-    wrapSingleElement(elements)
+    var elements = wrapSingleElement(SweetSelector.select(tag))
     addAttr(elements, attrName, attrValue);
   }
 
-  var show =
+  var show = function(tag){
+    var attrName = 'style'
+    var attrValue = 'display: block;'
+    var elements = wrapSingleElement(SweetSelector.select(tag))
+    addAttr(elements, attrName, attrValue);
+  }
 
+  var addClass = function(tag, newClass){
+    var elements = wrapSingleElement(SweetSelector.select(tag))
+    updateClass(elements, newClass)
+  }
+
+  var updateClass = function(elements, newClass){
+    for(var i = 0; i < elements.length; i++){
+      elements[i].classList.add(newClass)
+
+    }
+
+  }
 
   var addAttr = function(elements, attrName, attrValue){
     for(var i = 0; i < elements.length; i++){
@@ -61,8 +77,10 @@ var DOM = (function(){
   }
 
   return {
-    hide: hide
-    show: show
+    hide: hide,
+    show: show,
+    addClass: addClass
+
   }
 
 })()
